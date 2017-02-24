@@ -36,12 +36,10 @@ var nodePaths = (process.env.NODE_PATH || '')
 var config = {
 	appBuild: resolveApp('Build'),
 	appPublic: resolveApp('/'),
-	// appAssetsTemplate: resolveApp('assetTemplate.html'),
 	appEntries: {},
 	appPackageJson: resolveApp('package.json'),
 	appSrc: resolveApp('Scripts'),
 	yarnLockFile: resolveApp('yarn.lock'),
-	// testsSetup: resolveApp('src/setupTests.js'),
 	appNodeModules: resolveApp('node_modules'),
 	ownNodeModules: resolveApp('node_modules'),
 	nodePaths: nodePaths,
