@@ -23,19 +23,6 @@ function replaceUrl(cssUrl, styleSheets) {
 	}
 }
 
-function getStyleSheets() {
-	var links = document.getElementsByTagName("link");
-	var styleSheets = [];
-
-	for (var i = 0; i < links.length; i++) {
-		if (links[i].href && links[i].rel === "stylesheet") {
-			styleSheets.push(links[i]);
-		}
-	}
-
-	return styleSheets;
-}
-
 module.exports = function replaceStyleUrl(cssUrl) {
 	if(typeof DEBUG !== "undefined" && DEBUG) {
 		if(typeof document !== "object") {
@@ -43,7 +30,7 @@ module.exports = function replaceStyleUrl(cssUrl) {
 		}
 	}
 
-	var styleSheets = getStyleSheets();
+	var styleSheets = document.querySelectorAll("link[rel='stylesheet']");
 
 	replaceUrl(cssUrl, styleSheets);
 

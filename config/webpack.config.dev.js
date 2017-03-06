@@ -7,6 +7,7 @@ var paths = require('./paths');
 var addVendors = require('./addVendors');
 var configEntries = require('./configEntries');
 var providePlugins = require('./providePlugins');
+var ManifestPlugin = require('webpack-manifest-plugin');
 
 // Webpack uses `publicPath` to determine where the app is being served from.
 // In development, we always serve from the root. This makes config easier.
@@ -68,7 +69,6 @@ var config = {
 	},
 	resolveLoader: {
 		alias: {
-			'style-replace-loader': require.resolve('./style-replace-loader'),
 		}
 	},
 
@@ -132,8 +132,7 @@ var config = {
 			// in development "style" loader enables hot editing of CSS.
 			{
 				test: /\.(css|less)$/,
-				loader: 'style-replace-loader!file?name=[name].css?[hash]!postcss!less-loader',
-				// loader: 'style/replace!file?name=[name].css?[hash]!postcss!less-loader',
+				loader: 'style!css?importLoaders=2!postcss!less-loader',
 			},
 			// JSON is not enabled by default in Webpack but both Node and Browserify
 			// allow it implicitly so we also enable it.
@@ -189,7 +188,12 @@ var config = {
 		// to restart the development server for Webpack to discover it. This plugin
 		// makes the discovery automatic so you don't have to restart.
 		// See https://github.com/facebookincubator/create-react-app/issues/186
-		new WatchMissingNodeModulesPlugin(paths.appNodeModules)
+		new WatchMissingNodeModulesPlugin(paths.appNodeModules),
+		new ManifestPlugin({
+			fileName: 'asset-manifest.json',
+			writeToFileEmit: true,
+			// publicPath: 'Build/',
+		})
 	],
 	// Some libraries import Node modules but don't use them in the browser.
 	// Tell Webpack to provide empty mocks for them so importing them works.

@@ -61,7 +61,7 @@ var config = {
     // Generated JS file names (with nested folders).
     // There will be one main bundle, and one file per asynchronous chunk.
     // We don't currently advertise code splitting but Webpack supports it.
-    filename: 'js/[name].js',
+    filename: 'js/[name].[chunkhash:8].js',
     chunkFilename: 'js/[name].chunk.js',
     // We inferred the "public path" (such as / or /my-project) from homepage.
     publicPath: publicPath
@@ -206,12 +206,13 @@ var config = {
       }
     }),
     // Note: this won't work without ExtractTextPlugin.extract(..) in `loaders`.
-    new ExtractTextPlugin('css/[name].css'),
+    new ExtractTextPlugin('css/[name].[hash:8].css'),
     // Generate a manifest file which contains a mapping of all asset filenames
     // to their corresponding output file so that tools can pick it up without
     // having to parse `index.html`.
     new ManifestPlugin({
-      fileName: 'asset-manifest.json'
+      fileName: 'asset-manifest.json',
+      publicPath: 'Build/',
     })
   ],
   // Some libraries import Node modules but don't use them in the browser.
