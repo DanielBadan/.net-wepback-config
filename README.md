@@ -7,7 +7,7 @@ Forked from [create-react-app](https://github.com/facebookincubator/create-react
 ### Installation
 Clone repository in the root of the project.
 
-**You’ll need to have Node >= 4 on your machine.**  
+**You’ll need to have Node >= 5 on your machine.**  
 **Use Node >= 6 and npm >= 3 for faster installation speed and better disk usage.**
 
 ### The `Build` folder and it's content is generated automaticly and should not be included in the project(using Visual Studio source explorer).
