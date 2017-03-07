@@ -212,7 +212,7 @@ var config = {
     // having to parse `index.html`.
     new ManifestPlugin({
       fileName: 'asset-manifest.json',
-      publicPath: 'Build/',
+      publicPath: paths.buildFolderName,
     })
   ],
   // Some libraries import Node modules but don't use them in the browser.

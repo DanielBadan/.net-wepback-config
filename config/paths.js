@@ -33,8 +33,11 @@ var nodePaths = (process.env.NODE_PATH || '')
 
 
 // config after eject: we're in ./config/
+var buildFolderName = 'Build/';
 var config = {
-	appBuild: resolveApp('Build'),
+	buildFolderName: buildFolderName,
+	publicPath: '/',
+	appBuild: resolveApp(buildFolderName),
 	appPublic: resolveApp('/'),
 	appEntries: {},
 	appPackageJson: resolveApp('package.json'),
@@ -43,10 +46,7 @@ var config = {
 	appNodeModules: resolveApp('node_modules'),
 	ownNodeModules: resolveApp('node_modules'),
 	nodePaths: nodePaths,
-	modulesDirectories: [
-		resolveApp('Scripts/modules'),
-		resolveApp('Scripts/components'),
-	].concat(nodePaths)
+	modulesDirectories: [].concat(nodePaths)
 };
 
 // resolve entries

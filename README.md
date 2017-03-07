@@ -39,6 +39,7 @@ You can run the available tasks from Visual Studio with **NPM Task Runner extens
 The extension will use Yarn instead of NPM if a `yarn.lock` file exist in your root folder, so make sure you have it installed.
 
 ### Using configuration
+This configuration is using a proxy on `locahost` to make the views served by IIS available on the port created by this configuration.
 
 #### AssetResolver
 `App_Start/AssetResolver.cs` has static methods that will render the `<script>` and `<link>`
@@ -84,7 +85,8 @@ ex: key = *main*, assets = *main.js* & *main.css*;
 #### paths.js
 In `config/paths.js` change the paths according to your project structure.
 - `Scripts` - scripts src folder
-- `Build` - folder name where bundles are stored, when changed, change it in `Global.asax` file where used with `AssetResolver`
+- `Build` - folder name where bundles are stored, when changed, change it in `Global.asax` file where used with `AssetResolver` and in your `.csporj` file wildcard configuration
+- `publicPath` is used to tell webpack where the app is served from. If your app is served from ex: `localhost/my-app`, the `publicPath` value must be `/my-app/`
 
 #### providePlugins.js
 Use `config/paths.js` to tell webpack which plugins/packages to be available globally   
