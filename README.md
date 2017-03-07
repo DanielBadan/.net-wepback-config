@@ -1,4 +1,4 @@
-# .Net Webpack App
+# .Net Webpack Config
 Webpack configuration for .Net projects with multiple entries.
 Forked from [create-react-app](https://github.com/facebookincubator/create-react-app "create-react-app") repository.
 
