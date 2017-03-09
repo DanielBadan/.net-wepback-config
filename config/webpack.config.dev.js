@@ -1,9 +1,12 @@
+'use strict';
+
 var autoprefixer = require('autoprefixer');
 var webpack = require('webpack');
 var CaseSensitivePathsPlugin = require('case-sensitive-paths-webpack-plugin');
 var WatchMissingNodeModulesPlugin = require('react-dev-utils/WatchMissingNodeModulesPlugin');
 var getClientEnvironment = require('./env');
 var paths = require('./paths');
+
 var addVendors = require('./addVendors');
 var configEntries = require('./configEntries');
 var providePlugins = require('./providePlugins');
@@ -67,10 +70,6 @@ var config = {
 		extensions: ['.js', '.json', '.jsx', ''],
 		alias: {},
 	},
-	resolveLoader: {
-		alias: {
-		}
-	},
 
 	module: {
 		noParse: [],
@@ -83,24 +82,18 @@ var config = {
 			exclude: /node_modules|lib/,
 		}],
 		loaders: [
-			// Default loader: load all assets that are not handled
-			// by other loaders with the url loader.
-			// Note: This list needs to be updated with every change of extensions
-			// the other loaders match.
-			// E.g., when adding a loader for a new supported file extension,
-			// we need to add the supported extension to this loader too.
-			// Add one new line in `exclude` for each loader.
-			//
-			// "file" loader makes sure those assets get served by WebpackDevServer.
-			// When you `import` an asset, you get its (virtual) filename.
-			// In production, they would get copied to the `build` folder.
-			// "url" loader works like "file" loader except that it embeds assets
-			// smaller than specified limit in bytes as data URLs to avoid requests.
-			// A missing `test` is equivalent to a match.
+			// ** ADDING/UPDATING LOADERS **
+			// The "url" loader handles all assets unless explicitly excluded.
+			// The `exclude` list *must* be updated with every change to loader extensions.
+			// When adding a new loader, you must add its `test`
+			// as a new entry in the `exclude` list for "url" loader.
+
+			// "url" loader embeds assets smaller than specified size as data URLs to avoid requests.
+			// Otherwise, it acts like the "file" loader.
 			{
 				exclude: [
 					/\.html$/,
-					/\.(js|jsx)$/,
+					/\.(js|jsx)(\?.*)?$/,
 					/\.css$/,
 					/\.less$/,
 					/\.json$/,
@@ -174,10 +167,15 @@ var config = {
 		new webpack.IgnorePlugin(/^\.\/locale$/, [/moment$/]),
 		// Make global variables available across the application
 		new webpack.ProvidePlugin(providePlugins),
+		new ManifestPlugin({
+			fileName: 'asset-manifest.json',
+			writeToFileEmit: true,
+			publicPath: paths.buildFolderName,
+		}),
 
 		// Makes some environment variables available to the JS code, for example:
 		// if (process.env.NODE_ENV === 'development') { ... }. See `./env.js`.
-		new webpack.DefinePlugin(env),
+		new webpack.DefinePlugin(env.stringified),
 		// This is necessary to emit hot updates (currently CSS only):
 		new webpack.HotModuleReplacementPlugin(),
 		// Watcher doesn't work well if you mistype casing in a path so we use
@@ -188,12 +186,7 @@ var config = {
 		// to restart the development server for Webpack to discover it. This plugin
 		// makes the discovery automatic so you don't have to restart.
 		// See https://github.com/facebookincubator/create-react-app/issues/186
-		new WatchMissingNodeModulesPlugin(paths.appNodeModules),
-		new ManifestPlugin({
-			fileName: 'asset-manifest.json',
-			writeToFileEmit: true,
-			publicPath: paths.buildFolderName,
-		})
+		new WatchMissingNodeModulesPlugin(paths.appNodeModules)
 	],
 	// Some libraries import Node modules but don't use them in the browser.
 	// Tell Webpack to provide empty mocks for them so importing them works.
