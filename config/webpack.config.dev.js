@@ -14,7 +14,7 @@ var ManifestPlugin = require('webpack-manifest-plugin');
 
 // Webpack uses `publicPath` to determine where the app is being served from.
 // In development, we always serve from the root. This makes config easier.
-var publicPath = paths.publicPath + paths.buildFolderName;
+var publicPath = paths.publicPath;
 // `publicUrl` is just like `publicPath`, but we will provide it to our app
 // as %PUBLIC_URL% in `index.html` and `process.env.PUBLIC_URL` in JavaScript.
 // Omit trailing slash as %PUBLIC_PATH%/xyz looks better than %PUBLIC_PATH%xyz.
@@ -170,7 +170,6 @@ var config = {
 		new ManifestPlugin({
 			fileName: 'asset-manifest.json',
 			writeToFileEmit: true,
-			publicPath: paths.buildFolderName,
 		}),
 
 		// Makes some environment variables available to the JS code, for example:
