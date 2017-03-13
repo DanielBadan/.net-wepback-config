@@ -62,26 +62,28 @@ var config = {
 		// We use `fallback` instead of `root` because we want `node_modules` to "win"
 		// if there any conflicts. This matches Node resolution mechanism.
 		// https://github.com/facebookincubator/create-react-app/issues/253
-		fallback: paths.modulesDirectories,
+		modules: paths.modulesDirectories,
 		// These are the reasonable defaults supported by the Node ecosystem.
 		// We also include JSX as a common component filename extension to support
 		// some tools, although we do not recommend using it, see:
 		// https://github.com/facebookincubator/create-react-app/issues/290
-		extensions: ['.js', '.json', '.jsx', ''],
+		extensions: ['.js', '.json', '.jsx'],
 		alias: {},
 	},
 
 	module: {
 		noParse: [],
-		// First, run the linter.
-		// It's important to do this before Babel processes the JS.
-		preLoaders: [{
-			test: /\.(js|jsx)$/,
-			loader: 'eslint',
-			include: paths.appSrc,
-			exclude: /node_modules|lib/,
-		}],
-		loaders: [
+		rules: [
+			// First, run the linter.
+			// It's important to do this before Babel processes the JS.
+			{
+				test: /\.(js|jsx)$/,
+				loader: 'eslint-loader',
+				enforce: 'pre',
+				include: paths.appSrc,
+				exclude: /node_modules|lib/,
+			},
+
 			// ** ADDING/UPDATING LOADERS **
 			// The "url" loader handles all assets unless explicitly excluded.
 			// The `exclude` list *must* be updated with every change to loader extensions.
@@ -93,14 +95,14 @@ var config = {
 			{
 				exclude: [
 					/\.html$/,
-					/\.(js|jsx)(\?.*)?$/,
+					/\.(js|jsx)$/,
 					/\.css$/,
 					/\.less$/,
 					/\.json$/,
 					/\.svg$/
 				],
-				loader: 'url',
-				query: {
+				loader: 'url-loader',
+				options: {
 					limit: 10000,
 					name: 'media/[name].[hash:8].[ext]'
 				}
@@ -109,8 +111,8 @@ var config = {
 			{
 				test: /\.(js|jsx)$/,
 				include: paths.appSrc,
-				loader: 'babel',
-				query: {
+				loader: 'babel-loader',
+				options: {
 
 					// This is a feature of `babel-loader` for webpack (not Babel itself).
 					// It enables caching results in ./node_modules/.cache/babel-loader/
@@ -125,44 +127,52 @@ var config = {
 			// in development "style" loader enables hot editing of CSS.
 			{
 				test: /\.(css|less)$/,
-				loader: 'style!css?importLoaders=2!postcss!less-loader',
-			},
-			// JSON is not enabled by default in Webpack but both Node and Browserify
-			// allow it implicitly so we also enable it.
-			{
-				test: /\.json$/,
-				loader: 'json'
+				use: [
+					{loader: 'style-loader'},
+					{
+						loader: 'css-loader',
+						options: {
+							importLoaders: 2,
+						}
+					},
+					{
+						// We use PostCSS for autoprefixing only.
+						loader: 'postcss-loader',
+						options: {
+							plugins: function() {
+								return [
+									autoprefixer({
+										browsers: [
+											'>1%',
+											'last 4 versions',
+											'Firefox ESR',
+											'not ie < 9', // React doesn't support IE8 anyway
+										]
+									}),
+								]
+							}
+						}
+					},
+					{loader: 'less-loader'}
+				]
 			},
 			// "file" loader for svg
 			{
 				test: /\.svg$/,
-				loader: 'file',
-				query: {
+				loader: 'file-loader',
+				options: {
 					name: 'media/[name].[hash:8].[ext]'
 				}
 			},
-			{ test: /\.html$/, loader: 'raw' },
-			{ test: /blueimp-file-upload[\\\/]js[\\\/].*/, loader: 'imports?define=>false' },
+			{ test: /\.html$/, loader: 'raw-loader' },
+			{ test: /blueimp-file-upload[\\\/]js[\\\/].*/, loader: 'imports-loader?define=>false' },
 			{ test: /jquery[\\\/]src[\\\/]selector\.js$/, loader: 'amd-define-factory-patcher-loader' }, {
 				test: /knockout-sortablejs/,
-				loader: 'imports?define=>false',
+				loader: 'imports-loader?define=>false',
 			}
 		]
 	},
 
-	// We use PostCSS for autoprefixing only.
-	postcss: function() {
-		return [
-			autoprefixer({
-				browsers: [
-					'>1%',
-					'last 4 versions',
-					'Firefox ESR',
-					'not ie < 9', // React doesn't support IE8 anyway
-				]
-			}),
-		];
-	},
 	plugins: [
 		new webpack.IgnorePlugin(/^\.\/locale$/, [/moment$/]),
 		// Make global variables available across the application
