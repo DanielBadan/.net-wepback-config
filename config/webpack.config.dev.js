@@ -174,7 +174,7 @@ var config = {
 	},
 
 	plugins: [
-		new webpack.IgnorePlugin(/^\.\/locale$/, [/moment$/]),
+		new webpack.IgnorePlugin(/^\.\/locale$/, /moment$/),
 		// Make global variables available across the application
 		new webpack.ProvidePlugin(providePlugins),
 		new ManifestPlugin({

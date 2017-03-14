@@ -41,7 +41,6 @@ const cssFilename = 'css/[name].[contenthash:8].css';
 const extractTextPluginPublicPath = shouldUseRelativeAssetPaths
 	// Making sure that the publicPath goes back to to build folder.
 	? Array(cssFilename.split('/').length).join('../') : undefined;
-	// ? { publicPath: Array(cssFilename.split('/').length).join('../') } : undefined;
 
 // This is the production configuration.
 // It compiles slowly and is focused on producing a fast and minimal bundle.
@@ -182,24 +181,18 @@ var config = {
 			{ test: /\.html$/, loader: 'raw-loader', exclude: /assetTemplate\.html$/ },
 			{ 
 				test: /blueimp-file-upload[\\\/]js[\\\/].*/, 
-				loader: 'imports-loader',
-				options: {
-					define: false
-				}
+				loader: 'imports-loader?define=>false',
 			},
 			{ test: /jquery[\\\/]src[\\\/]selector\.js$/, loader: 'amd-define-factory-patcher-loader' }, 
 			{
 				test: /knockout-sortablejs/,
-				loader: 'imports-loader',
-				options: {
-					define: false
-				}
+				loader: 'imports-loader?define=>false',
 			}
 		]
 	},
 
 	plugins: [
-		new webpack.IgnorePlugin(/^\.\/locale$/, [/moment$/]),
+		new webpack.IgnorePlugin(/^\.\/locale$/, /moment$/),
 		new webpack.ProvidePlugin(providePlugins),
 		// Makes some environment variables available to the JS code, for example:
 		// if (process.env.NODE_ENV === 'production') { ... }. See `./env.js`.
@@ -207,20 +200,20 @@ var config = {
 		// Otherwise React will be compiled in the very slow development mode.
 		new webpack.DefinePlugin(env.stringified),
 		// Minify the code.
-		// new webpack.optimize.UglifyJsPlugin({
-		// 	sourceMap: true,
-		// 	compress: {
-		// 		screw_ie8: true,
-		// 		warnings: false
-		// 	},
-		// 	mangle: {
-		// 		screw_ie8: true
-		// 	},
-		// 	output: {
-		// 		comments: false,
-		// 		screw_ie8: true
-		// 	}
-		// }),
+		new webpack.optimize.UglifyJsPlugin({
+			sourceMap: true,
+			compress: {
+				screw_ie8: true,
+				warnings: false
+			},
+			mangle: {
+				screw_ie8: true
+			},
+			output: {
+				comments: false,
+				screw_ie8: true
+			}
+		}),
 		// Note: this won't work without ExtractTextPlugin.extract(..) in `loaders`.
 		new ExtractTextPlugin(cssFilename),
 		// Generate a manifest file which contains a mapping of all asset filenames

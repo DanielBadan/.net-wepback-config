@@ -5,7 +5,7 @@
   "homepage": ".",
   "devDependencies": {
     "autoprefixer": "6.7.6",
-    "babel-core": "6.22.1",
+    "babel-core": "6.23.1",
     "babel-eslint": "7.1.1",
     "babel-loader": "6.2.10",
     "babel-plugin-lodash": "^3.2.11",
@@ -38,7 +38,7 @@
     "react-dev-utils": "^0.5.2",
     "script-loader": "^0.7.0",
     "style-loader": "^0.13.2",
-    "url-loader": "0.5.7",
+    "url-loader": "0.5.8",
     "webpack": "2.2.1",
     "webpack-dev-server": "^2.4.1",
     "webpack-manifest-plugin": "1.1.0",

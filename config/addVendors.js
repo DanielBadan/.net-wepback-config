@@ -7,11 +7,6 @@ function addVendor(config, name, path) {
 }
 
 module.exports = function(config) {
-	// config.addVendor = function(name, path) {
-	// 	this.resolve.alias[name] = path;
-	// 	this.module.noParse.push(new RegExp(path));
-	// },
-
 	addVendor(config, 'velocity', path.resolve(paths.appSrc, 'lib/velocity.js'));
 	addVendor(config, 'velocityUI', path.resolve(paths.appSrc, 'lib/velocity.ui.js'));
 	addVendor(config, 'tooltipster', path.resolve(paths.appSrc, 'lib/jquery.tooltipster.js'));
