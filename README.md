@@ -101,13 +101,10 @@ module.exports = {
 ```
 
 #### addVendors.js
-Use `config/addVendors.js` to make non AMD scripts available to be used as AMD
-ex:   
+Use `config/addVendors.js` to create aliases to `import` or `require` certain module more easily or non npm/bower modules.
 ```javascript
 config.addVendor('my-script', path.join(paths.appSrc, 'lib/my-script.js'));
 ```
-use later: `import('my-script')`;  
-or create aliases to `import` or `require` certain modules more easily.  
 See the [docs](https://webpack.js.org/configuration/resolve/#resolve-alias) for more info.
 
 
