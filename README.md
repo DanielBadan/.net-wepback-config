@@ -109,3 +109,6 @@ config.addVendor('my-script', path.join(paths.appSrc, 'lib/my-script.js'));
 use later: `import('my-script')`;  
 or create aliases to `import` or `require` certain modules more easily.  
 See the [docs](https://webpack.js.org/configuration/resolve/#resolve-alias) for more info.
+
+
+Read the official [loaders](https://webpack.js.org/loaders/) and [plugins](https://webpack.js.org/plugins/) documentation for further customisation.
