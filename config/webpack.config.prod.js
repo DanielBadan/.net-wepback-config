@@ -134,6 +134,7 @@ var config = {
 			// in the main CSS file.
 			{
 				test: /\.(css|less)$/,
+				// Note: this won't work without `new ExtractTextPlugin()` in `plugins`.
 				use: ExtractTextPlugin.extract({
 					fallback: 'style-loader',
 					use: [
@@ -150,7 +151,6 @@ var config = {
 					],
 					publicPath: extractTextPluginPublicPath
 				})
-				// Note: this won't work without `new ExtractTextPlugin()` in `plugins`.
 			},
 			// "file" loader for svg
 			{
