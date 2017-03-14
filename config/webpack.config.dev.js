@@ -1,6 +1,6 @@
 'use strict';
 
-var autoprefixer = require('autoprefixer');
+// var autoprefixer = require('autoprefixer');
 var webpack = require('webpack');
 var CaseSensitivePathsPlugin = require('case-sensitive-paths-webpack-plugin');
 var WatchMissingNodeModulesPlugin = require('react-dev-utils/WatchMissingNodeModulesPlugin');
@@ -72,7 +72,6 @@ var config = {
 	},
 
 	module: {
-		noParse: [],
 		rules: [
 			// First, run the linter.
 			// It's important to do this before Babel processes the JS.
@@ -132,28 +131,13 @@ var config = {
 					{
 						loader: 'css-loader',
 						options: {
-							importLoaders: 2,
+							importLoaders: 1,
 						}
 					},
 					{
 						// We use PostCSS for autoprefixing only.
 						loader: 'postcss-loader',
-						options: {
-							plugins: function() {
-								return [
-									autoprefixer({
-										browsers: [
-											'>1%',
-											'last 4 versions',
-											'Firefox ESR',
-											'not ie < 9', // React doesn't support IE8 anyway
-										]
-									}),
-								]
-							}
-						}
-					},
-					{loader: 'less-loader'}
+					}
 				]
 			},
 			// "file" loader for svg
@@ -164,17 +148,10 @@ var config = {
 					name: 'media/[name].[hash:8].[ext]'
 				}
 			},
-			{ test: /\.html$/, loader: 'raw-loader' },
-			{ test: /blueimp-file-upload[\\\/]js[\\\/].*/, loader: 'imports-loader?define=>false' },
-			{ test: /jquery[\\\/]src[\\\/]selector\.js$/, loader: 'amd-define-factory-patcher-loader' }, {
-				test: /knockout-sortablejs/,
-				loader: 'imports-loader?define=>false',
-			}
 		]
 	},
 
 	plugins: [
-		new webpack.IgnorePlugin(/^\.\/locale$/, /moment$/),
 		// Make global variables available across the application
 		new webpack.ProvidePlugin(providePlugins),
 		new ManifestPlugin({

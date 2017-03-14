@@ -80,7 +80,6 @@ var config = {
 	},
 
 	module: {
-		noParse: [],
 		rules: [
 			// First, run the linter.
 			// It's important to do this before Babel processes the JS.
@@ -141,29 +140,12 @@ var config = {
 						{
 							loader: 'css-loader',
 							options: {
-								importLoaders: 2
+								importLoaders: 1
 							}
 						}, 
 						{
 							// We use PostCSS for autoprefixing only.
 							loader: 'postcss-loader',
-							options: {
-								plugins: function() {
-									return [
-										autoprefixer({
-											browsers: [
-												'>1%',
-												'last 4 versions',
-												'Firefox ESR',
-												'not ie < 9', // React doesn't support IE8 anyway
-											]
-										}),
-									]
-								}
-							}
-						}, 
-						{
-							loader: 'less-loader'
 						}
 					],
 					publicPath: extractTextPluginPublicPath
@@ -177,22 +159,11 @@ var config = {
 				options: {
 					name: 'media/[name].[hash:8].[ext]'
 				}
-			},
-			{ test: /\.html$/, loader: 'raw-loader', exclude: /assetTemplate\.html$/ },
-			{ 
-				test: /blueimp-file-upload[\\\/]js[\\\/].*/, 
-				loader: 'imports-loader?define=>false',
-			},
-			{ test: /jquery[\\\/]src[\\\/]selector\.js$/, loader: 'amd-define-factory-patcher-loader' }, 
-			{
-				test: /knockout-sortablejs/,
-				loader: 'imports-loader?define=>false',
 			}
 		]
 	},
 
 	plugins: [
-		new webpack.IgnorePlugin(/^\.\/locale$/, /moment$/),
 		new webpack.ProvidePlugin(providePlugins),
 		// Makes some environment variables available to the JS code, for example:
 		// if (process.env.NODE_ENV === 'production') { ... }. See `./env.js`.

@@ -1,6 +1,6 @@
-@white: #fff;
+@import 'base.css';
 
 body {
-	color: @white;
+	color: #fff;
 	background: url(../images/background.jpg);
 }
