@@ -3,4 +3,5 @@
 body {
 	color: #fff;
 	background: url(../images/background.jpg);
+	transform: rotate(45deg);
 }
